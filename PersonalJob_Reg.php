@@ -72,7 +72,7 @@ if (isset($_POST["btnBeginT"])) {
 }
 
 
-if (isset($_POST["btnStats"])) {
+// if (isset($_POST["btnStats"])) {
 	$sql = "SELECT COUNT(DISTINCT SchoolName) AS num FROM $TName";
 	//echo "$sql";
 	$result = $conn->query($sql);
@@ -94,7 +94,7 @@ if (isset($_POST["btnStats"])) {
 	while($row = $result->fetch_assoc()) {
 		$NumTeams = $row['num'];
 	}
-}
+// }
 
 if (isset($_POST["btnAddMember"])) {
 	$SklName = $_POST["txtSklName"];

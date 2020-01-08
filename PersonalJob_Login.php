@@ -68,20 +68,9 @@ function ValidatePage($pNumBreak, $pNumSeed, $pTournamentName, $pNumRounds) {
 	<title>WebBasedDebate</title>
 </head>
 <body>
-	<div id="divStartUp" style="width: 30%; height: 30%; text-align: center; position:absolute; left:0; right:0; margin-left:auto; margin-right:auto;">
+	<div id="divStartUp" style="width: 30%; height: 30%; text-align: center; position:absolute; left:0; right:0; margin-left:auto; margin-right:auto; display: inline-block;">
 		<form method="POST">
-			<table>
-				<tr>
-					<td>
-						Not a New Tournament?
-					</td>
-					<td>
-						<input type="submit" name="btnNotNew" id="btnNotNew" value="Load Old Data">
-					</td>			
-				</tr>
-				<tr>
-					<td>Else....</td>
-				</tr>	
+			<table>	
 				<tr>
 					<td>
 						Enter Tournament Name:

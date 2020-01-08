@@ -64,24 +64,74 @@ $Index = 0;
 for ($i=$Split; $i < $NumTeams ; $i++) { 
 	$Opposition[$Index] = $TempArray[$i];
 	$Index = $Index + 1;  
-}
-echo "Proposition"."<br>";
-for ($i=0; $i < $Split ; $i++) { 
-	echo $Proposition[$i]."<br>";
-}
-echo "Opposition"."<br>";
-for ($i=0; $i < $Split ; $i++) { 
-	echo $Opposition[$i]."<br>";
-}
+ }
+//echo "Proposition"."<br>";
+// for ($i=0; $i < $Split ; $i++) { 
+	//echo $Proposition[$i]."<br>";
+// }
+//echo "Opposition"."<br>";
+// for ($i=0; $i < $Split ; $i++) { 
+	//echo $Opposition[$i]."<br>";
+// }
 
+$output = '';
+$output .=' 
+	<table class="table" border="1">
+		<tr>
+			<td>Room</td>
+			<td>Proposition Team</td>
+			<td>Opposition Team</td>
+			<td colspan="5"  style="text-align:center;">Judges</td>
+		</tr>
+';
+
+
+	for ($i=0; $i < $Split ; $i++) {
+		$output .= '
+		<tr>
+			<td>'.($i + 1).'</td>
+			<td>'.$Proposition[$i].'</td>
+			<td>'.$Opposition[$i].'</td>
+			<td><input type="text" name="txtJudge" id="txtJudge"><td>
+			<td><input type="text" name="txtJudge" id="txtJudge"><td>
+			<td><input type="text" name="txtJudge" id="txtJudge"><td>
+		</tr> 
+		';
+			}
+	$output .= '</table>';
+	//echo "$output";			
+			
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
 	<title>Seed Round</title>
+	<style>
+/*table {
+  border-collapse: collapse;
+}
+*/table td {
+  border: 1px solid; 
+}
+table tr:first-child td {
+  border-top: 1;
+}
+table tr td:first-child {
+  border-left: 1;
+}
+table tr:last-child td {
+  border-bottom: 1;
+}
+table tr td:last-child {
+  border-right: 1;
+}
+</style>
 </head>
 <body>
-
+	<div style="height: 100%; width: 80%; box-sizing: border-box;">
+		<?php echo $output;?>
+	</div>
+	<div style="float: right; background-color: cyan;">Press 'Ctrl' + '+' sign to make page larger! </div>
 </body>
 </html>
