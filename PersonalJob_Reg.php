@@ -14,7 +14,6 @@ $NumTeams = 0;
 $NumDebaters = 0;
 $ValidateBoo = "false";
 $RoundNumber = 1;
-$_SESSION["RoundNumber"] = $RoundNumber;
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -28,6 +27,7 @@ if (isset($_POST["btnOutPut"])) {
 
 
 if (isset($_POST["btnBeginT"])) {
+	$_SESSION["RoundNumber"] = $RoundNumber;
 	$sql = "CREATE TABLE speaks
   			AS (SELECT MemberName, TeamName, SchoolName FROM $TName)";
   	$result = $conn->query($sql);
@@ -93,6 +93,7 @@ if (isset($_POST["btnBeginT"])) {
 
 	while($row = $result->fetch_assoc()) {
 		$NumTeams = $row['num'];
+		$_SESSION["NumTeams"] = $NumTeams;
 	}
 // }
 
@@ -125,6 +126,8 @@ function ValidateData($pSklName, $pTeamName, $pTeamMember) {
 	}
 }
 
+
+
 ?>
 
 
@@ -136,7 +139,7 @@ function ValidateData($pSklName, $pTeamName, $pTeamMember) {
 </head>
 <body>
 	<form method="POST">
-	<div id="divMain" style="width: 30%; height: 60%; text-align: center; position:absolute; left:0; right:0; margin-left:auto; margin-right:auto; background-color: cyan;">	
+	<div id="divMain" style="width: 30%; display: block; overflow: auto; text-align: center; position:absolute; left:0; right:0; margin-left:auto; margin-right:auto; background-color: cyan;">	
 		<table>
 			<tr>
 				<td>
@@ -192,7 +195,7 @@ function ValidateData($pSklName, $pTeamName, $pTeamMember) {
 			<tr>
 				<td></td>
 				<td>
-					<input type="submit" name="btnAddMember" id="btnAddMember" value="Add Member">
+					<input type="button" name="btnAddMember" id="btnAddMember" value="Add Member">
 				</td>
 			</tr>
 		</table>
@@ -210,7 +213,7 @@ function ValidateData($pSklName, $pTeamName, $pTeamMember) {
 		</table>
 	</div>
 	<div style="float: left; background-color: silver;">
-		<input type="submit" name="btnStats" id="btnStats" value="Check Stats" >
+		<!-- <input type="submit" name="btnStats" id="btnStats" value="Check Stats" > -->
 		<table>
 			<tr>
 				<td>

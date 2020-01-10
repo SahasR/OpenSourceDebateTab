@@ -10,7 +10,13 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 
 if ($conn->connect_error) {
 	die("Connection Failed: ". $conn->connect_error);
-}
+};
+
+// if(isset($_POST["btnResults"])){ 
+// 	<script type="text/javascript">
+//        window.open('PersonalJob_Results.php', '_blank');
+//     </script>
+// }
 
 $TName = $_SESSION["TName"];
 $SeedNum = $_SESSION["NumSeed"];
@@ -76,7 +82,7 @@ for ($i=$Split; $i < $NumTeams ; $i++) {
 
 $output = '';
 $output .=' 
-	<table class="table" border="1">
+	<table class="table" border="1" style="text-align:center;">
 		<tr>
 			<td>Room</td>
 			<td>Proposition Team</td>
@@ -107,12 +113,19 @@ $output .='
 <html>
 <head>
 	<title>Seed Round</title>
-	<style>
+	<script type="text/javascript">
+		function InsertResults() {
+			window.open('PersonalJob_Results.php', '_blank');
+		}
+		alert("Press 'Ctr' + '+' to make page larger!")
+	</script>
+<style type="text/css">
 /*table {
   border-collapse: collapse;
 }
 */table td {
   border: 1px solid; 
+  /*align-content: center;*/
 }
 table tr:first-child td {
   border-top: 1;
@@ -132,6 +145,14 @@ table tr td:last-child {
 	<div style="height: 100%; width: 80%; box-sizing: border-box;">
 		<?php echo $output;?>
 	</div>
-	<div style="float: right; background-color: cyan;">Press 'Ctrl' + '+' sign to make page larger! </div>
+	<form method="POST">
+		<!-- <div style="float: right; background-color: cyan;">Press 'Ctrl' + '+' sign to make page larger! </div> -->
+		<div><input type="button" name="btnResults" id="btnResults" value="Enter Results" onclick="InsertResults()"></div>
+	</form>
 </body>
+<!-- <?php  
+	
+	// header('Content-Type: application/xls');
+ //    header('Content-Disposition: attachment; filename=Matchup.xls');
+?> -->
 </html>

@@ -15,9 +15,9 @@ if(isset($_POST["export"]))
                           <th>MemberName</th>  
                            <th>TeamName</th>  
                            <th>SchoolName</th>  
-                          <th>Novice</th>
-                          <th>FoodPreference</th>
-                          <th>ContactDetails</th>
+                           <th>Novice</th>
+                           <th>FoodPreference</th>
+                           <th>ContactDetails</th>
                       </tr>
     ';
     while($row = mysqli_fetch_array($result))
