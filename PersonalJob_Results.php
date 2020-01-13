@@ -22,6 +22,8 @@ $Checking = "false";
 // echo "$SeedNum";
 // echo "$NumRounds";
 // echo "$RoundNumber";
+
+
 if (isset($_POST["btnResults"])) {
 	echo "Hello!";
 	$lstPropName = $_POST["lstPropName"];
@@ -45,12 +47,19 @@ function Validation() {
 <html>
 <head>
 	<title>Results Page!</title>
+<!-- 	<script type="text/javascript">
+		function LetsGo() {
+			alert("Hello");
+			var $Test = document.getElementByID('lstPropName').value;
+			alert($Test);
+		}
+	</script> -->
 </head>
 <body>
+	<form  method="post">
 	<div style="text-align: center;">
 		<div style="float: left; background-color: cyan; width: 50%">
-
-		<form method="POST">	
+	
 			<table>
 				<tr>
 					<td colspan="2">Proposition</td>				
@@ -68,7 +77,7 @@ function Validation() {
 								while ($row = $result->fetch_assoc()) {
 								$lstPropName = $row['TeamName']; 
     						?>
-    						<option value="<?php echo $lstPropName;?>"><?php echo $lstPropName;?></option>
+    						<option value="<?php echo $row['TeamName'];?>"><?php echo $row['TeamName'];?></option>
 
     						<?php
     							} 
@@ -145,11 +154,9 @@ function Validation() {
 					</td>
 					<td><input type="text" name="PropReplyScore" id="PropReplyScore"></td>
 				</tr>
-			</table>
-		</form>	
+			</table>	
 		</div>
-		<div style="float: right; background-color: salmon; width: 50%">
-			<form method="POST">	
+		<div style="float: right; background-color: salmon; width: 50%">	
 			<table>
 				<tr>
 					<td colspan="2">Opposition</td>				
@@ -248,13 +255,12 @@ function Validation() {
 					<td><input type="text" name="OppReplyScore" id="OppReplyScore"></td>
 				</tr>
 			</table>
-		</form>	
 		</div>
-		<form method="POST">
+		
 		<div>
-			<input type="submit" name="btnResults" id="btnResults" value="Submit Values">
+			<input type="submit" name="btnResults" id="btnResults" value="Submit Values" onclick="LetsGo()">
 		</div>
-		</form>
 	</div>
+</form>
 </body>
 </html>
