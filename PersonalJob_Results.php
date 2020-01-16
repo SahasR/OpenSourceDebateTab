@@ -79,12 +79,16 @@ if (isset($_POST["btnResults"])) {
   		$OppTotalSpeaks = $txtFirstOppScore + $txtSecondOppScore + $txtThirdOppScore + $OppReplyScore;
 
   		$sql = "SELECT TotalScore FROM wins WHERE TeamName = '$lstPropName'";
+  		// echo "$sql";
+  		// echo "$PropTotalSpeaks";
   		$result = $conn->query($sql);
   		while($row = $result->fetch_assoc()) {
   			$Score = $row["TotalScore"];
   		}
   		$Score = $Score + $PropTotalSpeaks;
+  		echo "$Score";
   		$sql = "UPDATE wins SET TotalScore = $Score WHERE TeamName = '$lstPropName'";
+  		echo "$sql";
   		$result = $conn->query($sql);
 
   		$sql = "SELECT TotalScore FROM wins WHERE TeamName = '$lstOppName'";
