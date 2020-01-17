@@ -34,12 +34,12 @@ if (isset($_POST["btnBeginT"])) {
   	for ($Counter=1; $Counter <= $NumRounds; $Counter++) { 
   				$RoundName = "Round" . strval($Counter);
   				$sql = "ALTER TABLE speaks
-						ADD $RoundName numeric(3,2)";
+						ADD $RoundName FLOAT";
 				$result = $conn->query($sql);		
 
   			}
   	$sql = "ALTER TABLE speaks
-  			ADD Average numeric(3,2)";
+  			ADD Average FLOAT";
   	$result = $conn->query($sql);
 
   	$sql = "SELECT COUNT(DISTINCT TeamName) AS num FROM $TName";
@@ -65,8 +65,11 @@ if (isset($_POST["btnBeginT"])) {
  			ADD Wins tinyint";
  	$result = $conn->query($sql);
  	$sql = "ALTER TABLE wins
- 			ADD TotalScore numeric(3,2)";
- 	$result = $conn->query($sql);						
+ 			ADD TotalScore FLOAT";
+ 	$result = $conn->query($sql);
+ 	$sql = "ALTER TABLE wins
+ 			ADD Margins FLOAT";
+ 	$result = $conn->query($sql); 							
   	header("Location:PersonalJob_SeedRound.php");
 
 }
@@ -195,7 +198,7 @@ function ValidateData($pSklName, $pTeamName, $pTeamMember) {
 			<tr>
 				<td></td>
 				<td>
-					<input type="button" name="btnAddMember" id="btnAddMember" value="Add Member">
+					<input type="submit" name="btnAddMember" id="btnAddMember" value="Add Member">
 				</td>
 			</tr>
 		</table>
