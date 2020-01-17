@@ -13,6 +13,26 @@ if ($conn->connect_error) {
 	die("Connection Failed: ". $conn->connect_error);
 }
 
+if (isset($_POST["btnCont"])) {
+	$TournamentName = $_POST["txtCont"];
+	$sql = "SELECT * FROM savedata";
+	$result = mysqli_query($conn, $sql);
+	while($row = mysqli_fetch_array($result)) {
+		$NumBreak = $row['NumBreak'];
+		$NumRounds = $row['NumRounds'];
+		$NumSeed = $row['NumSeed'];
+		$RoundNumber= $row['RoundNumber'];
+		// $TournamentName = $row['TournamentName'];
+		}
+		$_SESSION["NumBreak"] = $NumBreak;
+		$_SESSION["NumRounds"] = $NumRounds;
+		$_SESSION["NumSeed"] = $NumSeed;
+		$_SESSION["TName"] = $TournamentName;
+		// echo "NumBreak: $NumBreak<br>";
+		// echo "NumSeed: $NumSeed<br>";
+		// echo "NumRounds: $NumRounds<br>";
+}
+
 if (isset($_POST["btnStart"])) {
 	$NumBreak = $_POST["txtBreak"] * 1;
 	$NumSeed = $_POST["txtNumSeeds"];
@@ -35,6 +55,18 @@ if (isset($_POST["btnStart"])) {
 					ContactDetails varchar(25)
 				);";		
 	    $result = $conn->query($sql);
+	    $sql = "CREATE TABLE savedata (
+	    			NumBreak FLOAT,
+	    			NumRounds FLOAT,
+	    			NumSeed FLOAT,
+	    			TournamentName varchar(255),
+	    			RoundNumber FLOAT
+				)";
+	    $result = $conn->query($sql);
+	    $sql = "INSERT INTO savedata (NumBreak, NumRounds, NumSeed,TournamentName)
+	    		VALUES ($NumBreak, $NumRounds, $NumSeed, '$TournamentName')";
+	    $result = $conn->query($sql);	
+		
 		header("Location: PersonalJob_Reg.php");
 		
 	}
@@ -66,6 +98,14 @@ function ValidatePage($pNumBreak, $pNumSeed, $pTournamentName, $pNumRounds) {
 <html>
 <head>
 	<title>WebBasedDebate</title>
+	<script type="text/javascript">
+		$(document).keypress(
+  		function(event){
+    		if (event.which == '13') {
+     		event.preventDefault();
+    	}
+		});
+	</script>
 </head>
 <body>
 	<div id="divStartUp" style="width: 30%; height: 30%; text-align: center; position:absolute; left:0; right:0; margin-left:auto; margin-right:auto; display: inline-block;">
@@ -111,7 +151,27 @@ function ValidatePage($pNumBreak, $pNumSeed, $pTournamentName, $pNumRounds) {
 				</tr>
 			</table>
 		</div>
-		<div id="divBoast" style="float: right; background-color: cyan; width: 20%; text-align: center;">No Rights Reserved by Sahas Gunasekara cause Communism Comrades.</div>		
+		<div id="divBoast" style="float: right; background-color: cyan; width: 20%; text-align: center;">No Rights Reserved by Sahas Gunasekara cause Communism Comrades.</div>	
+		<div id="divContinue" style="float: left; background-color: salmon; text-align: center;">
+			If you are continuing the tournament:
+			<table>
+				<tr>
+					<td>
+						Enter Tourney Name:
+					</td>
+					<td>
+						<input type="text" name="txtCont" id="txtCont">
+					</td>
+				</tr>
+				<tr>
+					<td>	
+					</td>
+					<td>
+						<input type="submit" name="btnCont" id="btnCont" value="Continue Tabbing">
+					</td>
+				</tr>
+			</table>
+		</div>	
 	</form>	
 </body>
 </html>

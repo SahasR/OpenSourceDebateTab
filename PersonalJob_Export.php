@@ -1,5 +1,6 @@
 <?php  
 session_start();
+
 $TName = $_SESSION["TName"];
 //export.php  
 $connect = mysqli_connect("localhost", "root", "", "dbtournament");

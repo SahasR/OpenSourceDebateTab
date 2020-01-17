@@ -9,6 +9,15 @@ $result = mysqli_query($connect, $sql);
 <html>  
  <head>  
   <title>Export MySQL to Excel</title>  
+    <script type="text/javascript">
+    $(document).keypress(
+      function(event){
+        if (event.which == '13') {
+        event.preventDefault();
+      }
+    });
+  </script>
+
  </head>  
  <body>  
   <div class="container">  

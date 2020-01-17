@@ -15,6 +15,8 @@ $NumDebaters = 0;
 $ValidateBoo = "false";
 $RoundNumber = 1;
 
+// echo "$TName";
+
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 if ($conn->connect_error) {
@@ -34,14 +36,21 @@ if (isset($_POST["btnBeginT"])) {
   	for ($Counter=1; $Counter <= $NumRounds; $Counter++) { 
   				$RoundName = "Round" . strval($Counter);
   				$sql = "ALTER TABLE speaks
-						ADD $RoundName numeric(3,2)";
+						ADD $RoundName FLOAT";
 				$result = $conn->query($sql);		
 
   			}
   	$sql = "ALTER TABLE speaks
-  			ADD Average numeric(3,2)";
+  			ADD Average FLOAT";
   	$result = $conn->query($sql);
 
+   $sql = "UPDATE savedata
+			 SET RoundNumber = 1
+			 WHERE TournamentName = '$TName'";
+	echo "UPDATE savedata SET RoundNumber = 1 WHERE TournamentName = '$TName'";		
+
+	$result = $conn->query($sql);		
+		
   	$sql = "SELECT COUNT(DISTINCT TeamName) AS num FROM $TName";
 	//echo "$sql";
 	$result = $conn->query($sql);
@@ -65,8 +74,11 @@ if (isset($_POST["btnBeginT"])) {
  			ADD Wins tinyint";
  	$result = $conn->query($sql);
  	$sql = "ALTER TABLE wins
- 			ADD TotalScore numeric(3,2)";
- 	$result = $conn->query($sql);						
+ 			ADD TotalScore FLOAT";
+ 	$result = $conn->query($sql);
+ 	$sql = "ALTER TABLE wins
+ 			ADD Margins FLOAT";
+ 	$result = $conn->query($sql); 							
   	header("Location:PersonalJob_SeedRound.php");
 
 }
@@ -136,6 +148,15 @@ function ValidateData($pSklName, $pTeamName, $pTeamMember) {
 <html>
 <head>
 	<title>Registrations Page</title>
+		<script type="text/javascript">
+		$(document).keypress(
+  		function(event){
+    		if (event.which == '13') {
+     		event.preventDefault();
+    	}
+		});
+	</script>
+
 </head>
 <body>
 	<form method="POST">
@@ -195,7 +216,7 @@ function ValidateData($pSklName, $pTeamName, $pTeamMember) {
 			<tr>
 				<td></td>
 				<td>
-					<input type="button" name="btnAddMember" id="btnAddMember" value="Add Member">
+					<input type="submit" name="btnAddMember" id="btnAddMember" value="Add Member">
 				</td>
 			</tr>
 		</table>

@@ -25,7 +25,33 @@ $Checking = "true";
 // echo "$RoundNumber";
 $RoundName = "Round" . $RoundNumber;
 // echo "$RoundName";
+if(empty($_SESSION['count'])) $_SESSION['count'] = 0;
+// echo "$NumRounds";
 
+if (isset($_POST["btnNext"])) {
+	$order = $_SESSION["count"];
+	$Remaining = $NumTeams - $order;
+	// $Remaining = 4;
+	if ($Remaining == 0) {
+		unset($_SESSION['count']);
+		$RoundNumber = $RoundNumber +1;
+		$_SESSION["RoundNumber"] = $RoundNumber;
+  		$sql = "UPDATE savedata SET RoundNumber = $RoundNumber WHERE TournamentName = '$TName'";
+ 		$result = $conn->query($sql);  			
+
+		if ($RoundNumber > $SeedNum && $RoundNumber <= $NumRounds) {
+			header("Location:PersonalJob_PowerRound.php");
+		}
+		else {
+			header("Location:PersonalJob_SeedRound.php");
+		}
+		
+	}
+	else {
+		echo "Some values still need to be entered.";
+	}
+}
+// echo "$RoundNumber";
 
 
 if (isset($_POST["btnResults"])) {
@@ -38,7 +64,6 @@ if (isset($_POST["btnResults"])) {
 	$lstFirstOppName = $_POST["lstFirstOppName"];
 	$lstSecondOppName = $_POST["lstSecondOppName"];
 	$lstThirdOppName = $_POST["lstThirdOppName"];
-
 	$txtFirstPropScore = $_POST["txtFirstPropScore"]*1;
 	$txtSecondPropScore = $_POST["txtSecondPropScore"]*1;
 	$txtThirdPropScore = $_POST["txtThirdPropScore"]*1;
@@ -53,10 +78,7 @@ if (isset($_POST["btnResults"])) {
 	// $Checking = Validation();
 
 	if ($Checking == "true") {
-		// echo "Hello!";
-		// echo "$RoundName";
-		// echo "$txtFirstPropScore";
-		// echo "$lstFirstPropName";
+
 		$sql = "UPDATE speaks SET $RoundName=$txtFirstPropScore where MemberName='$lstFirstPropName'";
   		$result = $conn->query($sql);
 
@@ -78,13 +100,40 @@ if (isset($_POST["btnResults"])) {
   		$PropTotalSpeaks = $txtFirstPropScore + $txtSecondPropScore + $txtThirdPropScore + $PropReplyScore;
   		$OppTotalSpeaks = $txtFirstOppScore + $txtSecondOppScore + $txtThirdOppScore + $OppReplyScore;
 
+  		$PropMargin = $PropTotalSpeaks - $OppTotalSpeaks;
+  		$OppMargin = $OppTotalSpeaks - $PropTotalSpeaks;
+
+  		$sql = "SELECT Margins FROM wins WHERE TeamName = '$lstPropName'";
+  		$result = $conn->query($sql);
+  		while($row = $result->fetch_assoc()) {
+  			$Margins = $row["Margins"];
+  		} 
+
+  		$Margins = $Margins + $PropMargin;
+  		$sql = "UPDATE wins SET Margins = $Margins WHERE TeamName = '$lstPropName'";
+  		$result = $conn->query($sql);
+
+  		$sql = "SELECT Margins FROM wins WHERE TeamName = '$lstOppName'";
+  		$result = $conn->query($sql);
+  		while($row = $result->fetch_assoc()) {
+  			$Margins = $row["Margins"];
+  		} 
+
+  		$Margins = $Margins + $OppMargin;
+  		$sql = "UPDATE wins SET Margins = $Margins WHERE TeamName = '$lstOppName'";
+  		$result = $conn->query($sql); 		
+
   		$sql = "SELECT TotalScore FROM wins WHERE TeamName = '$lstPropName'";
+  		// echo "$sql";
+  		// echo "$PropTotalSpeaks";
   		$result = $conn->query($sql);
   		while($row = $result->fetch_assoc()) {
   			$Score = $row["TotalScore"];
   		}
   		$Score = $Score + $PropTotalSpeaks;
+  		// echo "$Score";
   		$sql = "UPDATE wins SET TotalScore = $Score WHERE TeamName = '$lstPropName'";
+  		// echo "$sql";
   		$result = $conn->query($sql);
 
   		$sql = "SELECT TotalScore FROM wins WHERE TeamName = '$lstOppName'";
@@ -116,12 +165,21 @@ if (isset($_POST["btnResults"])) {
   			$sql = "UPDATE wins SET Wins = $UpdatedWins WHERE TeamName = '$lstOppName'";
   			$result = $conn->query($sql);  			
   		}
+  		$order =  $_SESSION['count']+2;
+ 		$_SESSION['count'] =  $order;
+ 		$Remaining = $NumTeams - $order;
+ 		echo "Number of Teams Left to Submit: $Remaining";
 	}
 
 }
 
 function Validation() {
-
+	if ($lstPropName <> "" && $lstFirstPropName <> "" && $lstSecondPropName <> "" && $lstThirdPropName <> "" && $txtFirstPropScore <> "" && $txtSecondPropScore <> "" && $txtThirdPropScore <> "" && $PropReplyScore <> "" && $lstOppName <> "" && $lstFirstOppName <> "" && $lstSecondOppName <> "" && $lstThirdOppName <> "" && $txtFirstOppScore <> "" && $txtSecondOppScore <> "" && $txtThirdOppScore <> "" && $OppReplyScore <> "" ) {
+		echo "Input valid data!";
+	}
+	else {
+		return "true";
+	}
 }
 
 ?>
@@ -129,6 +187,15 @@ function Validation() {
 <html>
 <head>
 	<title>Results Page!</title>
+		<script type="text/javascript">
+		$(document).keypress(
+  		function(event){
+    		if (event.which == '13') {
+     		event.preventDefault();
+    	}
+		});
+	</script>
+
 <!-- 	<script type="text/javascript">
 		function LetsGo() {
 			alert("Hello");
@@ -152,7 +219,7 @@ function Validation() {
 					</td> -->
 					<td>
 						<select id="lstPropName" name="lstPropName">
-							<option value=" ">Select Team Name</option>
+							<option value="">Select Team Name</option>
 							<?php
     							$sql = "SELECT DISTINCT TeamName from $TName";
     							$result = $conn->query($sql);
@@ -173,7 +240,7 @@ function Validation() {
 					</td> -->
 					<td>
 						<select id="lstFirstPropName" name="lstFirstPropName">
-							<option value=" ">Select Prime Minister Name</option>
+							<option value="">Select Prime Minister Name</option>
 							<?php
     							$sql = "SELECT DISTINCT MemberName from $TName";
     							$result = $conn->query($sql);
@@ -194,7 +261,7 @@ function Validation() {
 					</td> -->
 					<td>
 						<select id="lstSecondPropName" name="lstSecondPropName">
-							<option value=" ">Select Deputy Prime Minister Name</option>
+							<option value="">Select Deputy Prime Minister Name</option>
 							<?php
     							$sql = "SELECT DISTINCT MemberName from $TName";
     							$result = $conn->query($sql);
@@ -215,7 +282,7 @@ function Validation() {
 					</td> -->
 					<td>
 						<select id="lstThirdPropName" name="lstThirdPropName">
-							<option value=" ">Select Government Whip Name</option>
+							<option value="">Select Government Whip Name</option>
 							<?php
     							$sql = "SELECT DISTINCT MemberName from $TName";
     							$result = $conn->query($sql);
@@ -249,7 +316,7 @@ function Validation() {
 					</td> -->
 					<td>
 						<select id="lstOppName" name="lstOppName">
-							<option value=" ">Select Team Name</option>
+							<option value="">Select Team Name</option>
 							<?php
     							$sql = "SELECT DISTINCT TeamName from $TName";
     							$result = $conn->query($sql);
@@ -270,7 +337,7 @@ function Validation() {
 					</td> -->
 					<td>
 						<select id="lstFirstOppName" name="lstFirstOppName">
-							<option value=" ">Select Opposition Leader Name</option>
+							<option value="">Select Opposition Leader Name</option>
 							<?php
     							$sql = "SELECT DISTINCT MemberName from $TName";
     							$result = $conn->query($sql);
@@ -292,7 +359,7 @@ function Validation() {
 					</td> -->
 					<td>
 						<select id="lstSecondOppName" name="lstSecondOppName">
-							<option value=" ">Select Deputy Opposition Leader Name</option>
+							<option value="">Select Deputy Opposition Leader Name</option>
 							<?php
     							$sql = "SELECT DISTINCT MemberName from $TName";
     							$result = $conn->query($sql);
@@ -314,7 +381,7 @@ function Validation() {
 					</td> -->
 					<td>
 						<select id="lstThirdOppName" name="lstThirdOppName">
-							<option value=" ">Select Opposition Whip Name</option>
+							<option value="">Select Opposition Whip Name</option>
 							<?php
     							$sql = "SELECT DISTINCT MemberName from $TName";
     							$result = $conn->query($sql);
@@ -342,6 +409,14 @@ function Validation() {
 		<div>
 			<input type="submit" name="btnResults" id="btnResults" value="Submit Values" onclick="LetsGo()">
 		</div>
+	</div>
+	<div style="float: right; background-color: violet;">
+		<table>
+			<tr>
+				<td>Go to next round!</td>
+				<td><input type="submit" name="btnNext" id="btnNext" value="Go to Next Round"></td>
+			</tr>
+		</table>
 	</div>
 </form>
 </body>

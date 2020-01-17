@@ -11,7 +11,16 @@ if (isset($_POST["btnGoBack"])) {
 ?>
 <html>  
  <head>  
-  <title>Export MySQL to Excel</title>  
+  <title>Export MySQL to Excel</title>
+      <script type="text/javascript">
+    $(document).keypress(
+      function(event){
+        if (event.which == '13') {
+        event.preventDefault();
+      }
+    });
+  </script>
+  
  </head>  
  <body> 
   <form method="POST"><input type="submit" name="btnGoBack" id="btnGoBack" value="Go Back to Registrations Page"></form> 

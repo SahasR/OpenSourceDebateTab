@@ -112,13 +112,22 @@ $output .='
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Seed Round</title>
+	<title><?php echo "$RoundNumber"?></title>
 	<script type="text/javascript">
 		function InsertResults() {
 			window.open('PersonalJob_Results.php', '_blank');
 		}
 		alert("Press 'Ctr' + '+' to make page larger!")
 	</script>
+		<script type="text/javascript">
+		$(document).keypress(
+  		function(event){
+    		if (event.which == '13') {
+     		event.preventDefault();
+    	}
+		});
+	</script>
+
 <style type="text/css">
 /*table {
   border-collapse: collapse;
@@ -151,7 +160,7 @@ table tr td:last-child {
 	</form>
 </body>
 <!-- <?php  
-	
+		
 	// header('Content-Type: application/xls');
  //    header('Content-Disposition: attachment; filename=Matchup.xls');
 ?> -->
