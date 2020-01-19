@@ -31,16 +31,16 @@ while($row = $result->fetch_assoc()) {
 	$NumTeams = $row['num'];
 }
 
-// $servername = "localhost";
-// $username = "root";
-// $password = "";
-// $dbname = "dbtournament";
-// $booleanValidate = "false";
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "dbtournament";
+$booleanValidate = "false";
 
-// $conn = new mysqli($servername, $username, $password, $dbname);
-// if ($conn->connect_error) {
-// 	die("Connection Failed: ". $conn->connect_error);
-// }
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+	die("Connection Failed: ". $conn->connect_error);
+}
 $TempArray = Array();
 $sql = "SELECT DISTINCT TeamName from $TName";
 $result = $conn->query($sql);
@@ -61,8 +61,7 @@ $RandomShuffle = shuffle($TempArray);
 $Proposition = Array();
 $Opposition = Array();
 $Transition = Array();
-
-
+$Split = $NumTeams / 2;
 // echo "$Split";
  for ($i=0; $i < $Split; $i++) { 
  	$Proposition[$i] = $TempArray[$i];
