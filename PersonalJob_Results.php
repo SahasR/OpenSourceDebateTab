@@ -42,8 +42,11 @@ if (isset($_POST["btnNext"])) {
 		if ($RoundNumber > $SeedNum && $RoundNumber <= $NumRounds) {
 			header("Location:PersonalJob_PowerRound.php");
 		}
-		else {
+		elseif ($RoundNumber <= $SeedNum) {
 			header("Location:PersonalJob_SeedRound.php");
+		}
+		elseif ($RoundNumber > $NumRounds) {
+			header("Location:PersonalJob_Finished.php");
 		}
 		
 	}

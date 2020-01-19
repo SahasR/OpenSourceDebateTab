@@ -56,9 +56,9 @@ foreach ($TempArrayWins as  $value) {
 	$i++;
 }
 
-for ($i=0; $i < $NumTeams ; $i++) { 
-	echo "$TempArray[$i]".":"."$TempArrayWins[$i]<br>";
-}
+// for ($i=0; $i < $NumTeams ; $i++) { 
+// 	echo "$TempArray[$i]".":"."$TempArrayWins[$i]<br>";
+// }
 
 $Proposition = Array();
 $Opposition = Array();
@@ -97,7 +97,11 @@ while ($CountNew < $NumTeams-1) {
 			}
 			$Transition = Array();
 			$CountNew = $CountNew + 2;
-			array_push($Transition, $TempArray[$CountNew]);
+			if ($CountNew < count($TempArray)) {
+				array_push($Transition, $TempArray[$CountNew]);
+			}
+			
+			
 		}
 		else {
 			$SplitNew = Count($Transition) / 2;
@@ -109,7 +113,7 @@ while ($CountNew < $NumTeams-1) {
 				array_push($Opposition,$Transition[$i]);
 			}
 			$Transition = Array();
-			$CountNew = $CountNew + 2;
+			$CountNew = $CountNew + 1;
 			array_push($Transition, $TempArray[$CountNew]);			
 		}
 	}
