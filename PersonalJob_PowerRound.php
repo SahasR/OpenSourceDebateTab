@@ -1,4 +1,4 @@
-<?php
+<?php 
 session_start();
 
 $servername = "localhost";
@@ -12,18 +12,12 @@ if ($conn->connect_error) {
 	die("Connection Failed: ". $conn->connect_error);
 };
 
-// if(isset($_POST["btnResults"])){ 
-// 	<script type="text/javascript">
-//        window.open('PersonalJob_Results.php', '_blank');
-//     </script>
-// }
-
 $TName = $_SESSION["TName"];
 $SeedNum = $_SESSION["NumSeed"];
 $NumRounds = $_SESSION["NumRounds"];
 $NumBreak = $_SESSION["NumBreak"];
 $RoundNumber = $_SESSION["RoundNumber"];
-// $RoundNumber = $RoundNumber + 1;
+
 $sql = "SELECT COUNT(DISTINCT TeamName) AS num FROM $TName";
 	//echo "$sql";
 $result = $conn->query($sql);
@@ -31,18 +25,10 @@ while($row = $result->fetch_assoc()) {
 	$NumTeams = $row['num'];
 }
 
-// $servername = "localhost";
-// $username = "root";
-// $password = "";
-// $dbname = "dbtournament";
-// $booleanValidate = "false";
-
-// $conn = new mysqli($servername, $username, $password, $dbname);
-// if ($conn->connect_error) {
-// 	die("Connection Failed: ". $conn->connect_error);
-// }
 $TempArray = Array();
-$sql = "SELECT DISTINCT TeamName from $TName";
+$TempArrayWins = Array();
+
+$sql = "SELECT TeamName from wins ORDER BY Wins DESC";
 $result = $conn->query($sql);
 $i=0;
 while ($row = $result->fetch_assoc()) {
@@ -56,30 +42,81 @@ foreach ($TempArray as  $value) {
 	$i++;
 }
 
+$sql = "SELECT Wins from wins ORDER BY Wins DESC";
+$result = $conn->query($sql);
+$i=0;
+while ($row = $result->fetch_assoc()) {
+	$TempArrayWins[$i] = $row;
+	$i++;	
+}
 
-$RandomShuffle = shuffle($TempArray);
+$i=0;
+foreach ($TempArrayWins as  $value) {
+	$TempArrayWins[$i] = $value["Wins"];
+	$i++;
+}
+
+for ($i=0; $i < $NumTeams ; $i++) { 
+	echo "$TempArray[$i]".":"."$TempArrayWins[$i]<br>";
+}
+
 $Proposition = Array();
 $Opposition = Array();
 $Transition = Array();
+$Split = $NumTeams / 2;
+$CountNew = 0;
+while ($CountNew < $NumTeams-1) { 
+	if ($CountNew==0) {
+		array_push($Transition, $TempArray[$CountNew]);	
+	}
+	if ($TempArrayWins[$CountNew] == $TempArrayWins[$CountNew+1] ) {
+		array_push($Transition, $TempArray[$CountNew+1]);
+		$CountNew = $CountNew + 1;
+		if ($CountNew == $NumTeams -1) {
+			$SplitNew = Count($Transition) / 2;
 
+			for ($i=0; $i < $SplitNew ; $i++) { 
+				array_push($Proposition,$Transition[$i]);
+			}
+			for ($i=$SplitNew; $i < Count($Transition); $i++) { 
+				array_push($Opposition,$Transition[$i]);
+			}
+			$Transition = Array();
+		}
+	}
+	else {
+		if (Count($Transition) % 2 == 1) {
+			array_push($Transition, $TempArray[$CountNew+1]);
+			$SplitNew = Count($Transition) / 2;
 
-// echo "$Split";
- for ($i=0; $i < $Split; $i++) { 
- 	$Proposition[$i] = $TempArray[$i];
- }
-$Index = 0;
-for ($i=$Split; $i < $NumTeams ; $i++) { 
-	$Opposition[$Index] = $TempArray[$i];
-	$Index = $Index + 1;  
- }
-//echo "Proposition"."<br>";
-// for ($i=0; $i < $Split ; $i++) { 
-	//echo $Proposition[$i]."<br>";
-// }
-//echo "Opposition"."<br>";
-// for ($i=0; $i < $Split ; $i++) { 
-	//echo $Opposition[$i]."<br>";
-// }
+			for ($i=0; $i < $SplitNew ; $i++) { 
+				array_push($Proposition,$Transition[$i]);
+			}
+			for ($i=$SplitNew; $i < Count($Transition); $i++) { 
+				array_push($Opposition,$Transition[$i]);
+			}
+			$Transition = Array();
+			$CountNew = $CountNew + 2;
+			array_push($Transition, $TempArray[$CountNew]);
+		}
+		else {
+			$SplitNew = Count($Transition) / 2;
+
+			for ($i=0; $i < $SplitNew ; $i++) { 
+				array_push($Proposition,$Transition[$i]);
+			}
+			for ($i=$SplitNew; $i < Count($Transition); $i++) { 
+				array_push($Opposition,$Transition[$i]);
+			}
+			$Transition = Array();
+			$CountNew = $CountNew + 2;
+			array_push($Transition, $TempArray[$CountNew]);			
+		}
+	}
+	
+}
+
+// echo "$Proposition[2]";
 
 $output = '';
 $output .=' 
@@ -106,10 +143,8 @@ $output .='
 		';
 			}
 	$output .= '</table>';
-	//echo "$output";			
-			
+	//echo "$output";
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -152,7 +187,7 @@ table tr td:last-child {
 </style>
 </head>
 <body>
-	<div style="height: 100%; width: 80%; box-sizing: border-box;">
+	<div style="width: 80%; box-sizing: border-box;">
 		<?php echo $output;?>
 	</div>
 	<form method="POST">
