@@ -62,7 +62,7 @@ $Proposition = Array();
 $Opposition = Array();
 $Transition = Array();
 
-
+$Split = Count($TempArray) /2;
 // echo "$Split";
  for ($i=0; $i < $Split; $i++) { 
  	$Proposition[$i] = $TempArray[$i];

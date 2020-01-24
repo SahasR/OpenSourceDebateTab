@@ -50,9 +50,9 @@ if (isset($_POST["btnStart"])) {
 					MemberName varchar(255),
 					TeamName varchar(255),
 					SchoolName varchar(255),
-					Novice boolean,
-					FoodPreference varchar(20),
-					ContactDetails varchar(25)
+					-- Novice boolean,
+					-- FoodPreference varchar(20),
+					-- ContactDetails varchar(25)
 				);";		
 	    $result = $conn->query($sql);
 	    $sql = "CREATE TABLE savedata (

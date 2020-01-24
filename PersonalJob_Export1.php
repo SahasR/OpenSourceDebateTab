@@ -32,12 +32,12 @@ if (isset($_POST["btnGoBack"])) {
     <h2 align="center">All Debaters of <?php echo "$TName";?></h2><br /> 
     <table class="table table-bordered">
      <tr>  
-                         <th>MemberName</th>  
-                         <th>TeamName</th>  
-                         <th>SchoolName</th>  
-                        <th>Novice</th>
-                        <th>FoodPreference</th>
-                        <th>ContactDetails</th>
+                         <th>Member Name</th>  
+                         <th>Team Name</th>  
+                         <th>School Name</th>  
+                        <!-- <th>Novice</th> -->
+                        <!-- <th>FoodPreference</th>
+                        <th>ContactDetails</th> -->
       </tr>
      <?php
      while($row = mysqli_fetch_array($result))  
@@ -47,9 +47,6 @@ if (isset($_POST["btnGoBack"])) {
          <td>'.$row["MemberName"].'</td>  
          <td>'.$row["TeamName"].'</td>  
          <td>'.$row["SchoolName"].'</td>  
-         <td>'.$row["Novice"].'</td>  
-         <td>'.$row["FoodPreference"].'</td>
-         <td>'.$row["ContactDetails"].'</td>
        </tr>  
         ';  
      }

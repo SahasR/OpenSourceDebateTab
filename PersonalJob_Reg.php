@@ -112,28 +112,50 @@ if (isset($_POST["btnBeginT"])) {
 if (isset($_POST["btnAddMember"])) {
 	$SklName = $_POST["txtSklName"];
 	$TeamName = $_POST["txtTeamName"];
-	$TeamMember = $_POST["txtMemberName"];
-	$Novice = $_POST["lstNovice"];
-	//echo "$Novice";
-	$Food = $_POST["lstFood"];
-	//echo "$Food";
-	$Number = "";
-	$Number = $_POST["txtContact"];
+	$TeamMember1 = $_POST["txtMemberName1"];
+	$TeamMember2 = $_POST["txtMemberName2"];
+	$TeamMember3 = $_POST["txtMemberName3"];
+	$TeamMember4 = $_POST["txtMemberName4"];
+	$TeamMember5 = $_POST["txtMemberName5"];			
+	// $Novice = $_POST["lstNovice"];
+	// //echo "$Novice";
+	// $Food = $_POST["lstFood"];
+	// //echo "$Food";
+	// $Number = "";
+	// $Number = $_POST["txtContact"];
 		
-	$ValidateBoo = ValidateData($SklName, $TeamName, $TeamMember);
+	$ValidateBoo = ValidateData($SklName, $TeamName, $TeamMember1, $TeamMember2, $TeamMember3);
 	if ($ValidateBoo == "true") {
-		$sql = "INSERT INTO $TName (MemberName, TeamName, SchoolName, Novice, FoodPreference, ContactDetails)
-					VALUES ('$TeamMember','$TeamName', '$SklName', '$Novice', '$Food', '$Number')";
+		$sql = "INSERT INTO $TName (MemberName, TeamName, SchoolName)
+					VALUES ('$TeamMember1','$TeamName', '$SklName')";
 		//echo "$sql";
     	$result = $conn->query($sql);
+    	$sql = "INSERT INTO $TName (MemberName, TeamName, SchoolName)
+					VALUES ('$TeamMember2','$TeamName', '$SklName')";
+		//echo "$sql";
+    	$result = $conn->query($sql);
+    	$sql = "INSERT INTO $TName (MemberName, TeamName, SchoolName)
+					VALUES ('$TeamMember3','$TeamName', '$SklName')";
+		//echo "$sql";
+    	$result = $conn->query($sql);
+    	if ($TeamMember4 <> "") {
+    		$sql = "INSERT INTO $TName (MemberName, TeamName, SchoolName)
+					VALUES ('$TeamMember4','$TeamName', '$SklName')";
+    		$result = $conn->query($sql);
+    	}
+    	if ($TeamMember5 <> "") {
+    		$sql = "INSERT INTO $TName (MemberName, TeamName, SchoolName)
+					VALUES ('$TeamMember5','$TeamName', '$SklName')";
+    		$result = $conn->query($sql);
+    	}    	
 	}
 	else {
 		echo "Some Data is missing";
 	}
 }
 
-function ValidateData($pSklName, $pTeamName, $pTeamMember) {
-	if ($pSklName <> "" && $pTeamName <> "" && $pTeamMember <> "") {
+function ValidateData($pSklName, $pTeamName, $pTeamMember1, $pTeamMember2, $pTeamMember3) {
+	if ($pSklName <> "" && $pTeamName <> "" && $pTeamMember1 <> "" && $pTeamMember2 <> "" && $pTeamMember3 <> "") {
 		Return "true";
 	}
 }
@@ -180,38 +202,45 @@ function ValidateData($pSklName, $pTeamName, $pTeamMember) {
 			</tr>
 			<tr>
 				<td>
-					Enter Team Members Name:
+					 Members Name:
 				</td>
 				<td>
-					<input type="text" name="txtMemberName" id="txtMemberName">
+					<input type="text" name="txtMemberName1" id="txtMemberName1">
 				</td>
 			</tr>
 			<tr>
 				<td>
-					Novice?
+					 Members Name:
 				</td>
 				<td>
-					<select id="lstNovice" name="lstNovice">
-						<option value="1">YES</option>
-						<option value="0">NO</option>
-					</select>
+					<input type="text" name="txtMemberName2" id="txtMemberName2">
 				</td>
 			</tr>
 			<tr>
 				<td>
-					Food Preference:
+					 Members Name:
 				</td>
 				<td>
-					<select id="lstFood" name="lstFood">
-						<option value="Normal">Normal</option>
-						<option value="Veg">Vegetarian</option>
-					</select>
+					<input type="text" name="txtMemberName3" id="txtMemberName3">
 				</td>
 			</tr>
 			<tr>
-				<td>Contact Details</td>
-				<td><input type="text" name="txtContact" id="txtContact"></td>
-				<td>Optional</td>
+				<td>
+					 Members Name:
+				</td>
+				<td>
+					<input type="text" name="txtMemberName4" id="txtMemberName4">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					 Members Name:
+				</td>
+				<td>
+					<input type="text" name="txtMemberName5" id="txtMemberName5">
+				</td>
+			</tr>			
+			<tr>
 			</tr>
 			<tr>
 				<td></td>
