@@ -17,7 +17,7 @@ if ($conn->connect_error) {
 //        window.open('PersonalJob_Results.php', '_blank');
 //     </script>
 // }
-
+$NumTeams = $_SESSION["NumTeams"];
 $TName = $_SESSION["TName"];
 $SeedNum = $_SESSION["NumSeed"];
 $NumRounds = $_SESSION["NumRounds"];
@@ -62,6 +62,7 @@ $Proposition = Array();
 $Opposition = Array();
 $Transition = Array();
 
+$Split = $NumTeams/2;
 
 // echo "$Split";
  for ($i=0; $i < $Split; $i++) { 
