@@ -28,7 +28,7 @@ while($row = $result->fetch_assoc()) {
 $TempArray = Array();
 $TempArrayWins = Array();
 
-$sql = "SELECT TeamName from wins ORDER BY Wins DESC";
+$sql = "SELECT TeamName from wins ORDER BY Wins DESC, Margins DESC, TotalScore DESC";
 $result = $conn->query($sql);
 $i=0;
 while ($row = $result->fetch_assoc()) {
