@@ -2,7 +2,7 @@
 session_start();
 $TName = $_SESSION["TName"];
 //export.php  
-$connect = mysqli_connect("localhost", "root", "", "dbtournament");
+$connect = mysqli_connect("localhost", "root", "password", "dbtournament");
 $output = '';
 
    $query = "SELECT * FROM wins ORDER BY Wins DESC, Margins DESC, TotalScore DESC";

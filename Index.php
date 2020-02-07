@@ -32,13 +32,10 @@ if (isset($_POST["btnCont"])) {
 		// echo "NumSeed: $NumSeed<br>";
 		// echo "NumRounds: $NumRounds<br>";
 		if ($RoundNumber > $NumSeed) {
-			header("Location:PersonalJob_PowerRound.php");
-		}
-		else if ($RoundNumber <= $NumSeed) {
-			header("Location:PersonalJob_SeedRound.php");
+			header("Location:PersonalJob_PowerRound");
 		}
 		else {
-			header("Location:PersonalJob_Finished.php");
+			header("Location:PersonalJob_SeedRound");
 		}
 }
 
