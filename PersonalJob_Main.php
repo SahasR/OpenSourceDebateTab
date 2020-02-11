@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-$connect = mysqli_connect("localhost", "root", "", "dbtournament");
+$connect = mysqli_connect("localhost", "root", "password", "dbtournament");
 $TName = $_SESSION["TName"];
 $sql = "SELECT * FROM";  
 $result = mysqli_query($connect, $sql);

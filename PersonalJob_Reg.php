@@ -7,7 +7,7 @@ $NumRounds = $_SESSION["NumRounds"];
 //echo "$TName";
 $servername = "localhost";
 $username = "root";
-$password = "";
+$password = "password";
 $dbname = "dbtournament";
 $NumSchools = 0;
 $NumTeams = 0;
@@ -43,7 +43,9 @@ if (isset($_POST["btnBeginT"])) {
   	$sql = "ALTER TABLE speaks
   			ADD Average FLOAT";
   	$result = $conn->query($sql);
-
+  	$sql = "ALTER TABLE speaks
+  			ADD Total FLOAT";
+  	$result = $conn->query($sql);		
    $sql = "UPDATE savedata
 			 SET RoundNumber = 1
 			 WHERE TournamentName = '$TName'";

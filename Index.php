@@ -32,13 +32,10 @@ if (isset($_POST["btnCont"])) {
 		// echo "NumSeed: $NumSeed<br>";
 		// echo "NumRounds: $NumRounds<br>";
 		if ($RoundNumber > $NumSeed) {
-			header("Location:PersonalJob_PowerRound.php");
-		}
-		else if ($RoundNumber <= $NumSeed) {
-			header("Location:PersonalJob_SeedRound.php");
+			header("Location:PersonalJob_PowerRound");
 		}
 		else {
-			header("Location:PersonalJob_Finished.php");
+			header("Location:PersonalJob_SeedRound");
 		}
 }
 
@@ -83,26 +80,6 @@ if (isset($_POST["btnStart"])) {
 		echo "Some data is wrong";
 	}
 		
-}
-
-if (isset($_POST["btnReg"])) {
-	$sql = "SELECT * FROM savedata";
-	$result = mysqli_query($conn, $sql);
-	while($row = mysqli_fetch_array($result)) {
-		$NumBreak = $row['NumBreak'];
-		$NumRounds = $row['NumRounds'];
-		$NumSeed = $row['NumSeed'];
-		$RoundNumber= $row['RoundNumber'];
-		$TournamentName = $row['TournamentName'];
-		}
-		$_SESSION["NumBreak"] = $NumBreak;
-		$_SESSION["NumRounds"] = $NumRounds;
-		$_SESSION["NumSeed"] = $NumSeed;
-		$_SESSION["TName"] = $TournamentName;
-		// echo "NumBreak: $NumBreak<br>";
-		// echo "NumSeed: $NumSeed<br>";
-		// echo "NumRounds: $NumRounds<br>";
-		header("Location:PersonalJob_Reg.php");
 }
 
 function ValidatePage($pNumBreak, $pNumSeed, $pTournamentName, $pNumRounds) {
@@ -197,13 +174,6 @@ function ValidatePage($pNumBreak, $pNumSeed, $pTournamentName, $pNumRounds) {
 					</td>
 					<td>
 						<input type="submit" name="btnCont" id="btnCont" value="Continue Tabbing">
-					</td>
-				</tr>
-				<tr>
-					<td>	
-					</td>
-					<td>
-						<input type="submit" name="btnReg" id="btnReg" value="Continue Registration">
 					</td>
 				</tr>
 			</table>

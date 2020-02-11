@@ -2,7 +2,7 @@
 session_start();
 $servername = "localhost";
 $username = "root";
-$password = "";
+$password = "password";
 $dbname = "dbtournament";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -38,7 +38,8 @@ if (isset($_POST["btnNext"])) {
 		$_SESSION["RoundNumber"] = $RoundNumber;
   		$sql = "UPDATE savedata SET RoundNumber = $RoundNumber WHERE TournamentName = '$TName'";
  		$result = $conn->query($sql);  			
-
+ 		unset($_SESSION["Proposition"]);
+ 		unset($_SESSION["Opposition"]);
 		if ($RoundNumber > $SeedNum && $RoundNumber <= $NumRounds) {
 			header("Location:PersonalJob_PowerRound.php");
 		}
@@ -85,20 +86,82 @@ if (isset($_POST["btnResults"])) {
 		$sql = "UPDATE speaks SET $RoundName=$txtFirstPropScore where MemberName='$lstFirstPropName'";
   		$result = $conn->query($sql);
 
+	  		$sql = "SELECT Total FROM speaks WHERE MemberName = '$lstFirstPropName'";
+	  		$result = $conn->query($sql);
+	  		while($row = $result->fetch_assoc()) {
+	  			$Total = $row["Total"];
+	  		} 
+
+	  		$Total = $Total + $txtFirstPropScore;
+	  		$sql = "UPDATE speaks SET Total = $Total WHERE MemberName = '$lstFirstPropName'";
+	  		$result = $conn->query($sql);
+
 		$sql = "UPDATE speaks SET $RoundName=$txtSecondPropScore where MemberName='$lstSecondPropName'";
   		$result = $conn->query($sql);
+
+  			$sql = "SELECT Total FROM speaks WHERE MemberName = '$lstSecondPropName'";
+	  		$result = $conn->query($sql);
+	  		while($row = $result->fetch_assoc()) {
+	  			$Total = $row["Total"];
+	  		} 
+
+	  		$Total = $Total + $txtSecondPropScore;
+	  		$sql = "UPDATE speaks SET Total = $Total WHERE MemberName = '$lstSecondPropName'";
+	  		$result = $conn->query($sql);
 
 		$sql = "UPDATE speaks SET $RoundName=$txtThirdPropScore where MemberName='$lstThirdPropName'";
   		$result = $conn->query($sql);
 
+  			$sql = "SELECT Total FROM speaks WHERE MemberName = '$lstThirdPropName'";
+	  		$result = $conn->query($sql);
+	  		while($row = $result->fetch_assoc()) {
+	  			$Total = $row["Total"];
+	  		} 
+
+	  		$Total = $Total + $txtThirdPropScore;
+	  		$sql = "UPDATE speaks SET Total = $Total WHERE MemberName = '$lstThirdPropName'";
+	  		$result = $conn->query($sql);
+
+
 		$sql = "UPDATE speaks SET $RoundName=$txtFirstOppScore where MemberName='$lstFirstOppName'";
   		$result = $conn->query($sql);
+
+	  		$sql = "SELECT Total FROM speaks WHERE MemberName = '$lstFirstOppName'";
+	  		$result = $conn->query($sql);
+	  		while($row = $result->fetch_assoc()) {
+	  			$Total = $row["Total"];
+	  		} 
+
+	  		$Total = $Total + $txtFirstOppScore;
+	  		$sql = "UPDATE speaks SET Total = $Total WHERE MemberName = '$lstFirstOppName'";
+	  		$result = $conn->query($sql);
 
 		$sql = "UPDATE speaks SET $RoundName=$txtSecondOppScore where MemberName='$lstSecondOppName'";
   		$result = $conn->query($sql);
 
+  			$sql = "SELECT Total FROM speaks WHERE MemberName = '$lstSecondOppName'";
+	  		$result = $conn->query($sql);
+	  		while($row = $result->fetch_assoc()) {
+	  			$Total = $row["Total"];
+	  		} 
+
+	  		$Total = $Total + $txtSecondOppScore;
+	  		$sql = "UPDATE speaks SET Total = $Total WHERE MemberName = '$lstSecondOppName'";
+	  		$result = $conn->query($sql);
+
 		$sql = "UPDATE speaks SET $RoundName=$txtThirdOppScore where MemberName='$lstThirdOppName'";
   		$result = $conn->query($sql);
+
+  			$sql = "SELECT Total FROM speaks WHERE MemberName = '$lstThirdOppName'";
+	  		$result = $conn->query($sql);
+	  		while($row = $result->fetch_assoc()) {
+	  			$Total = $row["Total"];
+	  		} 
+
+	  		$Total = $Total + $txtThirdOppScore;
+	  		$sql = "UPDATE speaks SET Total = $Total WHERE MemberName = '$lstThirdOppName'";
+	  		$result = $conn->query($sql);	
+
 
   		$PropTotalSpeaks = $txtFirstPropScore + $txtSecondPropScore + $txtThirdPropScore + $PropReplyScore;
   		$OppTotalSpeaks = $txtFirstOppScore + $txtSecondOppScore + $txtThirdOppScore + $OppReplyScore;

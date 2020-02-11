@@ -3,7 +3,7 @@ session_start();
 
 $servername = "localhost";
 $username = "root";
-$password = "";
+$password = "password";
 $dbname = "dbtournament";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -107,7 +107,9 @@ $output .='
 		';
 			}
 	$output .= '</table>';
-	//echo "$output";			
+	//echo "$output";	
+
+
 			
 ?>
 
@@ -119,7 +121,7 @@ $output .='
 		function InsertResults() {
 			window.open('PersonalJob_Results.php', '_blank');
 		}
-		alert("Press 'Ctr' + '+' to make page larger!")
+		// alert("Press 'Ctr' + '+' to make page larger!")
 	</script>
 		<script type="text/javascript">
 		$(document).keypress(
