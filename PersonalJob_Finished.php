@@ -6,7 +6,25 @@ $connect = mysqli_connect("localhost", "root", "password", "dbtournament");
 $sql = "SELECT * FROM savedata";
 $result = mysqli_query($connect, $sql);
   while($row = mysqli_fetch_array($result)) {
-    $NumRounds = $row['NumRounds'];
+    $NumRounds = $row['NumRounds']*1;
+    // echo "$NumRounds";
+}
+$sql = "SELECT * FROM speaks";
+$result = mysqli_query($connect, $sql);
+// echo "$result";
+
+while ($row = mysqli_fetch_array($result)) {
+	$Total = $row['Total']*1;
+	$MemberName = $row['MemberName'];
+  $Count = $row['Count'];
+  $Mid = $NumRounds /2;
+  if ($Count > $Mid) {
+    $Average = $Total/$Count;
+    $query = "UPDATE speaks SET Average = '$Average' WHERE MemberName = '$MemberName';";
+    // echo "$query";
+    $res = mysqli_query($connect, $query);
+  }
+	
 }
 $output = '';
 
@@ -56,14 +74,14 @@ $output = '';
                            <th>Position</th>
                            <th>MemberName<th>   
                            <th>TeamName</th>  
-                           <th>SchoolName</th>';  
-                           
-                    
+                           <th>SchoolName</th>
+                           <th>Count<th>';  
+  
     for ($i=1; $i <= $NumRounds ; $i++) { 
       $output .= '<th>Round'.strval($i).'</th>';
     }
     $output .= '<th>Average</th>';
-    $output .= '</tr';
+    $output .= '</tr>';
     $Pos = 0;
     while($row = mysqli_fetch_array($result))
     { 
@@ -72,13 +90,14 @@ $output = '';
           <tr>  
              <td>'.($Pos).'</td>
              <td>'.$row["MemberName"].'</td> 
-             <td></td> 
              <td>'.$row["TeamName"].'</td>  
-             <td>'.$row["SchoolName"].'</td>'; 
+             <td>'.$row["SchoolName"].'</td>
+             <td>'.$row["Count"].'</td>'; 
              for ($i=1; $i <= $NumRounds ; $i++) { 
                 $X = "Round".strval($i);
                 $output .= '<td>'.$row["$X"].'</td>';
                 }
+                // $output .= '<td><td>';
                 $output .= '<td>'.$row["Average"].'</td>';
                 $output .= '</tr>';
     }

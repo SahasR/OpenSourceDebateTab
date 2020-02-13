@@ -50,6 +50,17 @@ if (isset($_POST["btnSwingTeam"])) {
 	$result = $conn->query($sql);
 }
 
+if (isset($_POST["btnDropRound"])) {
+	$sql = "SELECT * FROM savedata";
+	$result = $conn->query($sql);
+	while($row = $result->fetch_assoc()) {
+	$NumRounds = $row['NumRounds'];	
+	}
+	$NumRounds = $NumRounds-1;
+	$sql = "UPDATE savedata SET NumRounds='$NumRounds' WHERE TournamentName='$TName';";
+	$result = $conn->query($sql);
+}
+
   ?>
 <!DOCTYPE html>
 <html>
@@ -126,6 +137,14 @@ if (isset($_POST["btnSwingTeam"])) {
 				</td>
 				<td>
 					<input type="submit" name="btnSwingTeam" id="btnSwingTeam" value="AddASwing">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Drop a Round:
+				</td>
+				<td>
+					<input type="submit" name="btnDropRound" id="btnDropRound" value="Drop A Round">
 				</td>
 			</tr>
 		</table>

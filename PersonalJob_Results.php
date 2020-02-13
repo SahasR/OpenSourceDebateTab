@@ -12,7 +12,11 @@ if ($conn->connect_error) {
 };
 $TName = $_SESSION["TName"];
 $SeedNum = $_SESSION["NumSeed"];
-$NumRounds = $_SESSION["NumRounds"];
+$sql = "SELECT * FROM savedata;";
+$result = $conn->query($sql);
+while($row = $result->fetch_assoc()) {
+	$NumRounds = $row['NumRounds'];
+}
 $NumBreak = $_SESSION["NumBreak"];
 $RoundNumber = $_SESSION["RoundNumber"];
 // echo "$RoundNumber";
@@ -96,6 +100,15 @@ if (isset($_POST["btnResults"])) {
 	  		$sql = "UPDATE speaks SET Total = $Total WHERE MemberName = '$lstFirstPropName'";
 	  		$result = $conn->query($sql);
 
+	  		$sql = "SELECT Count FROM speaks WHERE MemberName = '$lstFirstPropName'";
+	  		$result = $conn->query($sql);
+	  		while($row = $result->fetch_assoc()) {
+	  			$Count = $row["Count"];
+	  		} 
+	  		$Count = $Count + 1;
+	  		$sql = "UPDATE speaks SET Count = $Count WHERE MemberName = '$lstFirstPropName'";
+	  		$result = $conn->query($sql);
+
 		$sql = "UPDATE speaks SET $RoundName=$txtSecondPropScore where MemberName='$lstSecondPropName'";
   		$result = $conn->query($sql);
 
@@ -109,6 +122,15 @@ if (isset($_POST["btnResults"])) {
 	  		$sql = "UPDATE speaks SET Total = $Total WHERE MemberName = '$lstSecondPropName'";
 	  		$result = $conn->query($sql);
 
+	  		$sql = "SELECT Count FROM speaks WHERE MemberName = '$lstSecondPropName'";
+	  		$result = $conn->query($sql);
+	  		while($row = $result->fetch_assoc()) {
+	  			$Count = $row["Count"];
+	  		} 
+	  		$Count = $Count + 1;
+	  		$sql = "UPDATE speaks SET Count = $Count WHERE MemberName = '$lstSecondPropName'";
+	  		$result = $conn->query($sql);
+
 		$sql = "UPDATE speaks SET $RoundName=$txtThirdPropScore where MemberName='$lstThirdPropName'";
   		$result = $conn->query($sql);
 
@@ -120,6 +142,15 @@ if (isset($_POST["btnResults"])) {
 
 	  		$Total = $Total + $txtThirdPropScore;
 	  		$sql = "UPDATE speaks SET Total = $Total WHERE MemberName = '$lstThirdPropName'";
+	  		$result = $conn->query($sql);
+
+	  		$sql = "SELECT Count FROM speaks WHERE MemberName = '$lstThirdPropName'";
+	  		$result = $conn->query($sql);
+	  		while($row = $result->fetch_assoc()) {
+	  			$Count = $row["Count"];
+	  		} 
+	  		$Count = $Count + 1;
+	  		$sql = "UPDATE speaks SET Count = $Count WHERE MemberName = '$lstThirdPropName'";
 	  		$result = $conn->query($sql);
 
 
@@ -136,6 +167,15 @@ if (isset($_POST["btnResults"])) {
 	  		$sql = "UPDATE speaks SET Total = $Total WHERE MemberName = '$lstFirstOppName'";
 	  		$result = $conn->query($sql);
 
+	  		$sql = "SELECT Count FROM speaks WHERE MemberName = '$lstFirstOppName'";
+	  		$result = $conn->query($sql);
+	  		while($row = $result->fetch_assoc()) {
+	  			$Count = $row["Count"];
+	  		} 
+	  		$Count = $Count + 1;
+	  		$sql = "UPDATE speaks SET Count = $Count WHERE MemberName = '$lstFirstOppName'";
+	  		$result = $conn->query($sql);
+
 		$sql = "UPDATE speaks SET $RoundName=$txtSecondOppScore where MemberName='$lstSecondOppName'";
   		$result = $conn->query($sql);
 
@@ -149,6 +189,15 @@ if (isset($_POST["btnResults"])) {
 	  		$sql = "UPDATE speaks SET Total = $Total WHERE MemberName = '$lstSecondOppName'";
 	  		$result = $conn->query($sql);
 
+	  		$sql = "SELECT Count FROM speaks WHERE MemberName = '$lstSecondOppName'";
+	  		$result = $conn->query($sql);
+	  		while($row = $result->fetch_assoc()) {
+	  			$Count = $row["Count"];
+	  		} 
+	  		$Count = $Count + 1;
+	  		$sql = "UPDATE speaks SET Count = $Count WHERE MemberName = '$lstSecondOppName'";
+	  		$result = $conn->query($sql);
+
 		$sql = "UPDATE speaks SET $RoundName=$txtThirdOppScore where MemberName='$lstThirdOppName'";
   		$result = $conn->query($sql);
 
@@ -160,6 +209,15 @@ if (isset($_POST["btnResults"])) {
 
 	  		$Total = $Total + $txtThirdOppScore;
 	  		$sql = "UPDATE speaks SET Total = $Total WHERE MemberName = '$lstThirdOppName'";
+	  		$result = $conn->query($sql);
+
+	  		$sql = "SELECT Count FROM speaks WHERE MemberName = '$lstThirdOppName'";
+	  		$result = $conn->query($sql);
+	  		while($row = $result->fetch_assoc()) {
+	  			$Count = $row["Count"];
+	  		} 
+	  		$Count = $Count + 1;
+	  		$sql = "UPDATE speaks SET Count = $Count WHERE MemberName = '$lstThirdOppName'";
 	  		$result = $conn->query($sql);	
 
 

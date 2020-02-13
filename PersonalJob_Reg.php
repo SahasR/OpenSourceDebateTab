@@ -45,6 +45,9 @@ if (isset($_POST["btnBeginT"])) {
   	$result = $conn->query($sql);
   	$sql = "ALTER TABLE speaks
   			ADD Total FLOAT";
+  	$result = $conn->query($sql);
+  	$sql = "ALTER TABLE speaks
+  			ADD Count FLOAT";
   	$result = $conn->query($sql);		
    $sql = "UPDATE savedata
 			 SET RoundNumber = 1

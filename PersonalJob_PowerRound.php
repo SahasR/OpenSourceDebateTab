@@ -14,7 +14,11 @@ if ($conn->connect_error) {
 
 $TName = $_SESSION["TName"];
 $SeedNum = $_SESSION["NumSeed"];
-$NumRounds = $_SESSION["NumRounds"];
+$sql = "SELECT * FROM savedata;";
+$result = $conn->query($sql);
+while($row = $result->fetch_assoc()) {
+	$NumRounds = $row['NumRounds'];
+}
 $NumBreak = $_SESSION["NumBreak"];
 $RoundNumber = $_SESSION["RoundNumber"];
 
@@ -130,8 +134,8 @@ if (isset($_POST["btnSwitch"])) {
 		}
 	$Index = $_POST["txtSwitch"]*1;
 	$Index = $Index-1;
-	echo "$Proposition[$Index]"."Hello!";
-	echo "$Opposition[$Index]";	
+	// echo "$Proposition[$Index]"."Hello!";
+	// echo "$Opposition[$Index]";	
 	$Temp = $Proposition[$Index];
 	$Proposition[$Index] = $Opposition[$Index];
 	$Opposition[$Index] = $Temp;
