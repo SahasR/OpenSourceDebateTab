@@ -3,7 +3,7 @@ session_start();
 
 $servername = "localhost";
 $username = "root";
-$password = "";
+$password = "password";
 $dbname = "dbtournament";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -17,6 +17,7 @@ $SeedNum = $_SESSION["NumSeed"];
 $NumRounds = $_SESSION["NumRounds"];
 $NumBreak = $_SESSION["NumBreak"];
 $RoundNumber = $_SESSION["RoundNumber"];
+
 
 $sql = "SELECT COUNT(DISTINCT TeamName) AS num FROM $TName";
 	//echo "$sql";
@@ -120,6 +121,24 @@ while ($CountNew < $NumTeams-1) {
 	
 }
 
+
+if (isset($_POST["btnSwitch"])) {
+	if (isset($_SESSION["Proposition"]))
+		{
+		    $Proposition = $_SESSION["Proposition"];
+			$Opposition = $_SESSION["Opposition"];
+		}
+	$Index = $_POST["txtSwitch"]*1;
+	$Index = $Index-1;
+	echo "$Proposition[$Index]"."Hello!";
+	echo "$Opposition[$Index]";	
+	$Temp = $Proposition[$Index];
+	$Proposition[$Index] = $Opposition[$Index];
+	$Opposition[$Index] = $Temp;
+	$_SESSION["Proposition"] = $Proposition;
+	$_SESSION["Opposition"] = $Opposition;
+
+}
 // echo "$Proposition[2]";
 
 $output = '';
@@ -157,7 +176,7 @@ $output .='
 		function InsertResults() {
 			window.open('PersonalJob_Results.php', '_blank');
 		}
-		alert("Press 'Ctr' + '+' to make page larger!")
+		// alert("Press 'Ctr' + '+' to make page larger!")
 	</script>
 		<script type="text/javascript">
 		$(document).keypress(
@@ -197,6 +216,12 @@ table tr td:last-child {
 	<form method="POST">
 		<!-- <div style="float: right; background-color: cyan;">Press 'Ctrl' + '+' sign to make page larger! </div> -->
 		<div><input type="button" name="btnResults" id="btnResults" value="Enter Results" onclick="InsertResults()"></div>
+		<table>
+			<tr>
+				<td><input type="text" name="txtSwitch" id="txtSwitch"></td>
+				<td><input type="submit" name="btnSwitch" id="btnSwitch" value="Switch a Room:"></td>
+			</tr>		
+		</table>
 	</form>
 </body>
 <!-- <?php  

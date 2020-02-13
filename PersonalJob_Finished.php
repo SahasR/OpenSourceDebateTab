@@ -2,7 +2,7 @@
 session_start();
 $TName = $_SESSION["TName"];
 //export.php  
-$connect = mysqli_connect("localhost", "root", "", "dbtournament");
+$connect = mysqli_connect("localhost", "root", "password", "dbtournament");
 $sql = "SELECT * FROM savedata";
 $result = mysqli_query($connect, $sql);
   while($row = mysqli_fetch_array($result)) {
