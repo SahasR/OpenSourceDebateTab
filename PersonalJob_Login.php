@@ -28,6 +28,7 @@ if (isset($_POST["btnCont"])) {
 		$_SESSION["NumRounds"] = $NumRounds;
 		$_SESSION["NumSeed"] = $NumSeed;
 		$_SESSION["TName"] = $TournamentName;
+		$_SESSION["RoundNumber"] = $RoundNumber;
 		// echo "NumBreak: $NumBreak<br>";
 		// echo "NumSeed: $NumSeed<br>";
 		// echo "NumRounds: $NumRounds<br>";

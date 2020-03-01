@@ -20,7 +20,11 @@ if ($conn->connect_error) {
 $NumTeams = $_SESSION["NumTeams"];
 $TName = $_SESSION["TName"];
 $SeedNum = $_SESSION["NumSeed"];
-$NumRounds = $_SESSION["NumRounds"];
+$sql = "SELECT * FROM savedata;";
+$result = $conn->query($sql);
+while($row = $result->fetch_assoc()) {
+	$NumRounds = $row['NumRounds'];
+}
 $NumBreak = $_SESSION["NumBreak"];
 $RoundNumber = $_SESSION["RoundNumber"];
 // $RoundNumber = $RoundNumber + 1;

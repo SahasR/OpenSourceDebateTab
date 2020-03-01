@@ -12,12 +12,17 @@ if ($conn->connect_error) {
 };
 $TName = $_SESSION["TName"];
 $SeedNum = $_SESSION["NumSeed"];
-$NumRounds = $_SESSION["NumRounds"];
+$sql = "SELECT * FROM savedata;";
+$result = $conn->query($sql);
+while($row = $result->fetch_assoc()) {
+	$NumRounds = $row['NumRounds'];
+}
 $NumBreak = $_SESSION["NumBreak"];
 $RoundNumber = $_SESSION["RoundNumber"];
 // echo "$RoundNumber";
-$NumTeams = $_SESSION["NumTeams"];
+// $NumTeams = $_SESSION["NumTeams"];
 $Checking = "true";
+unset($_SESSION["count"]);
 // echo "$NumTeams";
 // echo "$TName";
 // echo "$SeedNum";
@@ -31,6 +36,7 @@ if(empty($_SESSION['count'])) $_SESSION['count'] = 0;
 if (isset($_POST["btnNext"])) {
 	$order = $_SESSION["count"];
 	$Remaining = $NumTeams - $order;
+	$Remaining =0;
 	// $Remaining = 4;
 	if ($Remaining == 0) {
 		unset($_SESSION['count']);
@@ -96,6 +102,15 @@ if (isset($_POST["btnResults"])) {
 	  		$sql = "UPDATE speaks SET Total = $Total WHERE MemberName = '$lstFirstPropName'";
 	  		$result = $conn->query($sql);
 
+	  		$sql = "SELECT Count FROM speaks WHERE MemberName = '$lstFirstPropName'";
+	  		$result = $conn->query($sql);
+	  		while($row = $result->fetch_assoc()) {
+	  			$C = $row["Count"];
+	  		} 
+	  		$C = $C + 1;
+	  		$sql = "UPDATE speaks SET Count = $C WHERE MemberName = '$lstFirstPropName'";
+	  		$result = $conn->query($sql);
+
 		$sql = "UPDATE speaks SET $RoundName=$txtSecondPropScore where MemberName='$lstSecondPropName'";
   		$result = $conn->query($sql);
 
@@ -109,6 +124,15 @@ if (isset($_POST["btnResults"])) {
 	  		$sql = "UPDATE speaks SET Total = $Total WHERE MemberName = '$lstSecondPropName'";
 	  		$result = $conn->query($sql);
 
+	  		$sql = "SELECT Count FROM speaks WHERE MemberName = '$lstSecondPropName'";
+	  		$result = $conn->query($sql);
+	  		while($row = $result->fetch_assoc()) {
+	  			$C = $row["Count"];
+	  		} 
+	  		$C = $C + 1;
+	  		$sql = "UPDATE speaks SET Count = $C WHERE MemberName = '$lstSecondPropName'";
+	  		$result = $conn->query($sql);
+
 		$sql = "UPDATE speaks SET $RoundName=$txtThirdPropScore where MemberName='$lstThirdPropName'";
   		$result = $conn->query($sql);
 
@@ -120,6 +144,15 @@ if (isset($_POST["btnResults"])) {
 
 	  		$Total = $Total + $txtThirdPropScore;
 	  		$sql = "UPDATE speaks SET Total = $Total WHERE MemberName = '$lstThirdPropName'";
+	  		$result = $conn->query($sql);
+
+	  		$sql = "SELECT Count FROM speaks WHERE MemberName = '$lstThirdPropName'";
+	  		$result = $conn->query($sql);
+	  		while($row = $result->fetch_assoc()) {
+	  			$C = $row["Count"];
+	  		} 
+	  		$C = $C + 1;
+	  		$sql = "UPDATE speaks SET Count = $C WHERE MemberName = '$lstThirdPropName'";
 	  		$result = $conn->query($sql);
 
 
@@ -136,6 +169,15 @@ if (isset($_POST["btnResults"])) {
 	  		$sql = "UPDATE speaks SET Total = $Total WHERE MemberName = '$lstFirstOppName'";
 	  		$result = $conn->query($sql);
 
+	  		$sql = "SELECT Count FROM speaks WHERE MemberName = '$lstFirstOppName'";
+	  		$result = $conn->query($sql);
+	  		while($row = $result->fetch_assoc()) {
+	  			$C = $row["Count"];
+	  		} 
+	  		$C = $C + 1;
+	  		$sql = "UPDATE speaks SET Count = $C WHERE MemberName = '$lstFirstOppName'";
+	  		$result = $conn->query($sql);
+
 		$sql = "UPDATE speaks SET $RoundName=$txtSecondOppScore where MemberName='$lstSecondOppName'";
   		$result = $conn->query($sql);
 
@@ -149,6 +191,15 @@ if (isset($_POST["btnResults"])) {
 	  		$sql = "UPDATE speaks SET Total = $Total WHERE MemberName = '$lstSecondOppName'";
 	  		$result = $conn->query($sql);
 
+	  		$sql = "SELECT Count FROM speaks WHERE MemberName = '$lstSecondOppName'";
+	  		$result = $conn->query($sql);
+	  		while($row = $result->fetch_assoc()) {
+	  			$C = $row["Count"];
+	  		} 
+	  		$C = $C + 1;
+	  		$sql = "UPDATE speaks SET Count = $C WHERE MemberName = '$lstSecondOppName'";
+	  		$result = $conn->query($sql);
+
 		$sql = "UPDATE speaks SET $RoundName=$txtThirdOppScore where MemberName='$lstThirdOppName'";
   		$result = $conn->query($sql);
 
@@ -160,6 +211,15 @@ if (isset($_POST["btnResults"])) {
 
 	  		$Total = $Total + $txtThirdOppScore;
 	  		$sql = "UPDATE speaks SET Total = $Total WHERE MemberName = '$lstThirdOppName'";
+	  		$result = $conn->query($sql);
+
+	  		$sql = "SELECT Count FROM speaks WHERE MemberName = '$lstThirdOppName'";
+	  		$result = $conn->query($sql);
+	  		while($row = $result->fetch_assoc()) {
+	  			$C = $row["Count"];
+	  		} 
+	  		$C = $C + 1;
+	  		$sql = "UPDATE speaks SET Count = $C WHERE MemberName = '$lstThirdOppName'";
 	  		$result = $conn->query($sql);	
 
 
@@ -287,7 +347,7 @@ function Validation() {
 						<select id="lstPropName" name="lstPropName">
 							<option value="">Select Team Name</option>
 							<?php
-    							$sql = "SELECT DISTINCT TeamName from $TName";
+    							$sql = "SELECT DISTINCT TeamName from speaks";
     							$result = $conn->query($sql);
 								while ($row = $result->fetch_assoc()) {
 								$lstPropName = $row['TeamName']; 
@@ -308,7 +368,7 @@ function Validation() {
 						<select id="lstFirstPropName" name="lstFirstPropName">
 							<option value="">Select Prime Minister Name</option>
 							<?php
-    							$sql = "SELECT DISTINCT MemberName from $TName";
+    							$sql = "SELECT DISTINCT MemberName from speaks";
     							$result = $conn->query($sql);
 								while ($row = $result->fetch_assoc()) { 
     						?>
@@ -329,7 +389,7 @@ function Validation() {
 						<select id="lstSecondPropName" name="lstSecondPropName">
 							<option value="">Select Deputy Prime Minister Name</option>
 							<?php
-    							$sql = "SELECT DISTINCT MemberName from $TName";
+    							$sql = "SELECT DISTINCT MemberName from speaks";
     							$result = $conn->query($sql);
 								while ($row = $result->fetch_assoc()) { 
     						?>
@@ -350,7 +410,7 @@ function Validation() {
 						<select id="lstThirdPropName" name="lstThirdPropName">
 							<option value="">Select Government Whip Name</option>
 							<?php
-    							$sql = "SELECT DISTINCT MemberName from $TName";
+    							$sql = "SELECT DISTINCT MemberName from speaks";
     							$result = $conn->query($sql);
 								while ($row = $result->fetch_assoc()) { 
     						?>
@@ -405,7 +465,7 @@ function Validation() {
 						<select id="lstFirstOppName" name="lstFirstOppName">
 							<option value="">Select Opposition Leader Name</option>
 							<?php
-    							$sql = "SELECT DISTINCT MemberName from $TName";
+    							$sql = "SELECT DISTINCT MemberName from speaks";
     							$result = $conn->query($sql);
 								while ($row = $result->fetch_assoc()) { 
     						?>
@@ -427,7 +487,7 @@ function Validation() {
 						<select id="lstSecondOppName" name="lstSecondOppName">
 							<option value="">Select Deputy Opposition Leader Name</option>
 							<?php
-    							$sql = "SELECT DISTINCT MemberName from $TName";
+    							$sql = "SELECT DISTINCT MemberName from speaks";
     							$result = $conn->query($sql);
 								while ($row = $result->fetch_assoc()) { 
     						?>
@@ -449,7 +509,7 @@ function Validation() {
 						<select id="lstThirdOppName" name="lstThirdOppName">
 							<option value="">Select Opposition Whip Name</option>
 							<?php
-    							$sql = "SELECT DISTINCT MemberName from $TName";
+    							$sql = "SELECT DISTINCT MemberName from speaks";
     							$result = $conn->query($sql);
 								while ($row = $result->fetch_assoc()) { 
     						?>

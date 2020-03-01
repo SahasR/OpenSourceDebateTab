@@ -14,12 +14,16 @@ if ($conn->connect_error) {
 
 $TName = $_SESSION["TName"];
 $SeedNum = $_SESSION["NumSeed"];
-$NumRounds = $_SESSION["NumRounds"];
-$NumBreak = $_SESSION["NumBreak"];
-$RoundNumber = $_SESSION["RoundNumber"];
+$sql = "SELECT * FROM savedata;";
+$result = $conn->query($sql);
+while($row = $result->fetch_assoc()) {
+	$NumRounds = $row['NumRounds'];
+	$RoundNumber = $row['RoundNumber'];
+}
 
 
-$sql = "SELECT COUNT(DISTINCT TeamName) AS num FROM $TName";
+
+$sql = "SELECT COUNT(DISTINCT TeamName) AS num FROM wins";
 	//echo "$sql";
 $result = $conn->query($sql);
 while($row = $result->fetch_assoc()) {
@@ -64,6 +68,7 @@ foreach ($TempArrayWins as  $value) {
 $Proposition = Array();
 $Opposition = Array();
 $Transition = Array();
+$OppTransition = Array();
 $Split = $NumTeams / 2;
 $CountNew = 0;
 while ($CountNew < $NumTeams-1) { 
@@ -80,8 +85,13 @@ while ($CountNew < $NumTeams-1) {
 				array_push($Proposition,$Transition[$i]);
 			}
 			for ($i=$SplitNew; $i < Count($Transition); $i++) { 
-				array_push($Opposition,$Transition[$i]);
+				array_push($OppTransition,$Transition[$i]);
 			}
+			$OppTransition = array_reverse($OppTransition);
+			for ($i=0 ; $i < Count($OppTransition); $i++ ) { 
+				array_push($Opposition, $OppTransition[$i]);
+			}
+			$OppTransition = Array();
 			$Transition = Array();
 		}
 	}
@@ -94,8 +104,13 @@ while ($CountNew < $NumTeams-1) {
 				array_push($Proposition,$Transition[$i]);
 			}
 			for ($i=$SplitNew; $i < Count($Transition); $i++) { 
-				array_push($Opposition,$Transition[$i]);
+				array_push($OppTransition,$Transition[$i]);
 			}
+			$OppTransition = array_reverse($OppTransition);
+			for ($i=0 ; $i < Count($OppTransition); $i++ ) { 
+				array_push($Opposition, $OppTransition[$i]);
+			}
+			$OppTransition = Array();
 			$Transition = Array();
 			$CountNew = $CountNew + 2;
 			if ($CountNew < count($TempArray)) {
@@ -111,18 +126,25 @@ while ($CountNew < $NumTeams-1) {
 				array_push($Proposition,$Transition[$i]);
 			}
 			for ($i=$SplitNew; $i < Count($Transition); $i++) { 
-				array_push($Opposition,$Transition[$i]);
+				array_push($OppTransition,$Transition[$i]);
 			}
+			$OppTransition = array_reverse($OppTransition);
+			for ($i=0 ; $i < Count($OppTransition); $i++ ) { 
+				array_push($Opposition, $OppTransition[$i]);
+			}
+			$OppTransition = Array();
 			$Transition = Array();
 			$CountNew = $CountNew + 1;
 			array_push($Transition, $TempArray[$CountNew]);			
 		}
 	}
-	
 }
 
+// $Opposition = array_reverse($Opposition);
 
-if (isset($_POST["btnSwitch"])) {
+
+if (isset($_POST["btnSwitch"]))
+ {
 	if (isset($_SESSION["Proposition"]))
 		{
 		    $Proposition = $_SESSION["Proposition"];
@@ -130,8 +152,8 @@ if (isset($_POST["btnSwitch"])) {
 		}
 	$Index = $_POST["txtSwitch"]*1;
 	$Index = $Index-1;
-	echo "$Proposition[$Index]"."Hello!";
-	echo "$Opposition[$Index]";	
+	// echo "$Proposition[$Index]"."Hello!";
+	// echo "$Opposition[$Index]";	
 	$Temp = $Proposition[$Index];
 	$Proposition[$Index] = $Opposition[$Index];
 	$Opposition[$Index] = $Temp;

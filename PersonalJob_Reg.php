@@ -45,6 +45,9 @@ if (isset($_POST["btnBeginT"])) {
   	$result = $conn->query($sql);
   	$sql = "ALTER TABLE speaks
   			ADD Total FLOAT";
+  	$result = $conn->query($sql);
+  	$sql = "ALTER TABLE speaks
+  			ADD Count FLOAT";
   	$result = $conn->query($sql);		
    $sql = "UPDATE savedata
 			 SET RoundNumber = 1
@@ -87,29 +90,29 @@ if (isset($_POST["btnBeginT"])) {
 
 
 // if (isset($_POST["btnStats"])) {
-	$sql = "SELECT COUNT(DISTINCT SchoolName) AS num FROM $TName";
-	//echo "$sql";
-	$result = $conn->query($sql);
+// 	$sql = "SELECT COUNT(DISTINCT SchoolName) AS num FROM $TName";
+// 	//echo "$sql";
+// 	$result = $conn->query($sql);
 
-	while($row = $result->fetch_assoc()) {
-		$NumSchools = $row['num'];
-	}
-	$sql = "SELECT COUNT(DISTINCT MemberName) AS num FROM $TName";
-	//echo "$sql";
-	$result = $conn->query($sql);
+// 	while($row = $result->fetch_assoc()) {
+// 		$NumSchools = $row['num'];
+// 	}
+// 	$sql = "SELECT COUNT(DISTINCT MemberName) AS num FROM $TName";
+// 	//echo "$sql";
+// 	$result = $conn->query($sql);
 
-	while($row = $result->fetch_assoc()) {
-		$NumDebaters = $row['num'];
-	}
-	$sql = "SELECT COUNT(DISTINCT TeamName) AS num FROM $TName";
-	//echo "$sql";
-	$result = $conn->query($sql);
+// 	while($row = $result->fetch_assoc()) {
+// 		$NumDebaters = $row['num'];
+// 	}
+// 	$sql = "SELECT COUNT(DISTINCT TeamName) AS num FROM $TName";
+// 	//echo "$sql";
+// 	$result = $conn->query($sql);
 
-	while($row = $result->fetch_assoc()) {
-		$NumTeams = $row['num'];
-		$_SESSION["NumTeams"] = $NumTeams;
-	}
-// }
+// 	while($row = $result->fetch_assoc()) {
+// 		$NumTeams = $row['num'];
+// 		$_SESSION["NumTeams"] = $NumTeams;
+// 	}
+// // }
 
 if (isset($_POST["btnAddMember"])) {
 	$SklName = $_POST["txtSklName"];

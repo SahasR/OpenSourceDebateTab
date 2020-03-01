@@ -21,6 +21,8 @@ if (isset($_POST["btnRename"])) {
 	$sql = "UPDATE $TName SET MemberName='$NewName' WHERE MemberName='$Name';";
 	// echo "$sql";
 	$result = $conn->query($sql);
+	$sql = "UPDATE speaks SET MemberName='$NewName' WHERE MemberName='$Name';";
+	$result = $conn->query($sql);
 }
 
 if (isset($_POST["btnAddDebator"])) {
@@ -35,6 +37,8 @@ if (isset($_POST["btnRemoveDebator"])) {
 	$Name = $_POST["txtRemoveDebator"];
 	$sql = "DELETE FROM $TName WHERE MemberName='$Name'";
 	$result = $conn->query($sql);
+	$sql = "DELETE FROM speaks WHERE MemberName='$Name'";
+	$result = $conn->query($sql);
 }
 
 if (isset($_POST["btnDropTeam"])) {
@@ -47,6 +51,19 @@ if (isset($_POST["btnDropTeam"])) {
 
 if (isset($_POST["btnSwingTeam"])) {
 	$sql = "INSERT INTO $TName (TeamName) VALUES ('Swing Team');";
+	$result = $conn->query($sql);
+	$sql = "INSERT INTO wins (TeamName) VALUES ('Swing Team');";
+	$result = $conn->query($sql);
+}
+
+if (isset($_POST["btnDropRound"])) {
+	$sql = "SELECT * FROM savedata";
+	$result = $conn->query($sql);
+	while($row = $result->fetch_assoc()) {
+	$NumRounds = $row['NumRounds'];	
+	}
+	$NumRounds = $NumRounds-1;
+	$sql = "UPDATE savedata SET NumRounds='$NumRounds' WHERE TournamentName='$TName';";
 	$result = $conn->query($sql);
 }
 
@@ -126,6 +143,14 @@ if (isset($_POST["btnSwingTeam"])) {
 				</td>
 				<td>
 					<input type="submit" name="btnSwingTeam" id="btnSwingTeam" value="AddASwing">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Drop a Round:
+				</td>
+				<td>
+					<input type="submit" name="btnDropRound" id="btnDropRound" value="Drop A Round">
 				</td>
 			</tr>
 		</table>
